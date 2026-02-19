@@ -20,20 +20,43 @@
 
 ---
 
+## Quick Install (One Command)
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/breakingcircuits1337/OpencodeBC-BrokenCircuits-edition/main/install.sh | bash
+```
+
+Or clone and run manually:
+
+```bash
+git clone git@github.com:breakingcircuits1337/OpencodeBC-BrokenCircuits-edition.git ~/opencode-bc
+cd ~/opencode-bc
+bash install.sh
+```
+
+---
+
 ## About This Project
 
-This is a customized configuration for **OpenCode CLI** - the AI assistant that lives in your terminal. This edition, "BrokenCircuits," includes pre-configured tools, skills, and setup for AI-powered development.
+This is a customized distribution of **OpenCode CLI** - the AI assistant that lives in your terminal. The BrokenCircuits Edition includes pre-configured tools, skills, and setup for AI-powered development.
+
+### Two-Repo System
+
+| Repo | Purpose |
+|------|---------|
+| [opencodeBC-MAIN](https://github.com/breakingcircuits1337/opencodeBC-MAIN) | Fork of OpenCode - build from source |
+| [OpencodeBC-BrokenCircuits-edition](https://github.com/breakingcircuits1337/OpencodeBC-BrokenCircuits-edition) | Configs, skills, and install scripts |
 
 ### Features
 
-- 🤖 **AI-Powered Assistance** - OpenCode CLI with 20+ specialized skills
+- 🤖 **AI-Powered Assistance** - OpenCode CLI built from source
 - 🐍 **Python Development** - Full Python environment with venv, black, flake8, mypy, ruff
 - 💻 **JavaScript/Node.js** - TypeScript, ESLint, Prettier, Yarn, PNPM
 - 🎨 **AI Image Generation** - Stable Diffusion XL via Hugging Face
 - 🔊 **Text-to-Speech** - Natural Google TTS voice
 - 🔐 **GitHub Integration** - SSH authentication ready
-- 📋 **Clipboard Tools** - xclip for seamless copy/paste
 - 💾 **Persistent Memory** - CLAUDE.md for context retention
+- 🛠️ **20+ Specialized Skills** - For development, testing, media, and more
 
 ---
 
@@ -41,77 +64,118 @@ This is a customized configuration for **OpenCode CLI** - the AI assistant that 
 
 ```
 OpencodeBC-BrokenCircuits-edition/
-├── CLAUDE.md                 # Persistent memory & preferences
+├── install.sh                 # One-command installer
+├── README.md                  # This file
+├── CLAUDE.md                  # Persistent memory template
+├── opencode.jsonc             # OpenCode configuration
+├── skills/                    # Custom skills
+│   ├── azure-llm-bridge/     # Azure Mistral/Kimi scripts
+│   ├── azure-cli/            # Azure management
+│   └── proxmox-manager/     # Proxmox VM management
 ├── bin/
-│   └── speak               # TTS voice script
+│   └── speak                 # TTS voice script
 ├── .config/
 │   └── Code/
 │       └── User/
-│           └── settings.json  # VS Code configuration
-├── opencode-skills-catalog.md  # Available skills
+│           └── settings.json # VS Code configuration
 └── .gitignore
 ```
 
 ---
 
-## Quick Start
+## Installation
 
-### 1. Clone This Setup
+### Prerequisites
+
+- Linux (Ubuntu, Debian, Kali, Arch, Fedora)
+- Git
+- SSH key added to GitHub
+
+### Quick Install
 
 ```bash
+# Clone this repo
 git clone git@github.com:breakingcircuits1337/OpencodeBC-BrokenCircuits-edition.git ~/opencode-bc
 cd ~/opencode-bc
+
+# Run installer
+bash install.sh
 ```
 
-### 2. Install Dependencies
+The installer will:
+1. Install system dependencies
+2. Install Bun (JavaScript runtime)
+3. Clone and build OpenCode from opencodeBC-MAIN fork
+4. Install OpenCode binary to ~/.local/bin/
+5. Setup configs and skills
+6. Create ~/.env template
 
-**Python:**
+### Manual Setup
+
+If you prefer manual installation:
+
 ```bash
-mkdir -p ~/.venvs
-python3 -m venv ~/.venvs/base
-~/.venvs/base/bin/pip install ipython black flake8 mypy ruff gTTS pygame
+# 1. Install Bun
+curl -fsSL https://bun.sh/install | bash
+
+# 2. Clone OpenCode fork
+git clone git@github.com:breakingcircuits1337/opencodeBC-MAIN.git
+cd opencodeBC-MAIN
+bun install
+cd packages/opencode
+bun run build
+
+# 3. Install binary
+cp dist/opencode-linux-x64/bin/opencode ~/.local/bin/opencode
+chmod +x ~/.local/bin/opencode
+
+# 4. Clone configs
+cd ~
+git clone git@github.com:breakingcircuits1337/OpencodeBC-BrokenCircuits-edition.git
 ```
 
-**Node.js:**
+---
+
+## Configuration
+
+### API Keys
+
+Edit `~/.env` to add your keys:
+
 ```bash
-npm install -g typescript eslint prettier yarn pnpm
-```
-
-**System Tools:**
-```bash
-sudo apt-get install -y xclip xsel
-```
-
-### 3. Configure GitHub SSH
-
-Add your SSH key to GitHub:
-```bash
-cat ~/.ssh/your_key.pub
-# Copy and add to GitHub → Settings → SSH Keys
-```
-
-### 4. Set Up API Keys (Optional)
-
-Create `~/.env`:
-```bash
+# Hugging Face
 HUGGING_FACE_TOKEN=your_hf_token
+
+# Replicate  
 REPLICATE_API_TOKEN=your_replicate_token
+
+# Azure AI Foundry
+AZURE_API_KEY=your_azure_key
+AZURE_REGION=east2
 ```
+
+### OpenCode Config
+
+The included `opencode.jsonc` provides:
+- Azure AI Foundry integration (Mistral Large 3, Kimi K2 Thinking)
+- Custom keybindings
+- Model preferences
 
 ---
 
 ## Available Skills
 
-This setup includes access to 20+ specialized skills:
+This setup includes 20+ specialized skills:
 
 | Category | Skills |
 |----------|--------|
-| **Development** | spawn-team, browser-automation, mcp-integration |
-| **AI & Media** | agent-tools, ai-avatar-video, ai-video-generation |
+| **Development** | spawn-team, browser-automation, mcp-integration, subagent-driven-development |
+| **AI & Media** | agent-tools, ai-avatar-video, ai-video-generation, canvas-design |
 | **Testing** | webapp-testing, audit-website, seo-audit |
-| **Process** | brainstorming, systematic-debugging, test-driven-development |
-| **Creative** | canvas-design, copywriting, marketing-psychology |
+| **Process** | brainstorming, systematic-debugging, test-driven-development, finishing-a-development-branch |
+| **Creative** | copywriting, marketing-psychology |
 | **Research** | OSINT |
+| **Operations** | product-operations, operations-optimizer |
 
 See [opencode-skills-catalog.md](opencode-skills-catalog.md) for full list.
 
@@ -119,71 +183,55 @@ See [opencode-skills-catalog.md](opencode-skills-catalog.md) for full list.
 
 ## Text-to-Speech
 
-The `speak` script uses Google TTS for natural voice output:
+The `speak` command uses Google TTS:
 
 ```bash
-# Add to your path
-export PATH="$PATH:~/opencode-bc/bin"
-
-# Use it
 speak "Hello! I'm your AI assistant."
 ```
 
 ---
 
-## Image Generation
+## Updating
 
-Generate AI images using Stable Diffusion XL:
+```bash
+# Update configs and skills
+cd ~/opencode-bc
+git pull
 
-```python
-from huggingface_hub import InferenceClient
+# Update OpenCode source
+cd ~/opencodeBC-MAIN
+git pull
+bun install
+cd packages/opencode
+bun run build
 
-client = InferenceClient(
-    "stabilityai/stable-diffusion-xl-base-1.0",
-    token="your_hf_token"
-)
-
-image = client.text_to_image("your prompt here")
-image.save("output.png")
+# Reinstall binary
+cp dist/opencode-linux-x64/bin/opencode ~/.local/bin/opencode
 ```
 
 ---
 
-## Configuration Highlights
+## Troubleshooting
 
-### VS Code Settings
-- Python: black formatting, flake8 linting
-- JavaScript/TypeScript: Prettier on save
-- Rulers at 88 and 120 columns
+### Build fails
+- Ensure Bun is installed: `bun --version`
+- Try: `cd ~/opencodeBC-MAIN && bun install && bun run build`
 
-### Python Tools
-- **black** - Code formatting
-- **flake8** - Linting
-- **mypy** - Type checking
-- **ruff** - Fast linter/formatter
+### OpenCode not found
+- Check PATH: `echo $PATH`
+- Add manually: `export PATH="$HOME/.local/bin:$PATH"`
 
-### Memory System
-The `CLAUDE.md` file stores preferences and context. OpenCode reads it at session start to remember:
-- User preferences
-- Project context
-- Setup configurations
-- Previously discussed topics
-
----
-
-## Screenshots
-
-<p align="center">
-  <img src="Pictures/opencode-readme.png" alt="AI Terminal" width="600"/>
-</p>
+### SSH clone fails
+- Ensure SSH key is added to GitHub
+- Or use HTTPS: `https://github.com/breakingcircuits1337/...`
 
 ---
 
 ## Tech Stack
 
-- **Runtime**: OpenCode CLI
-- **Languages**: Python 3.12, Node.js 24
-- **AI**: Hugging Face, Replicate
+- **Runtime**: Bun 1.3.9
+- **Languages**: Python 3.12, Node.js, TypeScript
+- **AI**: Azure AI Foundry (Mistral, Kimi), Hugging Face, Replicate
 - **Editor**: VS Code
 - **TTS**: Google gTTS
 
@@ -200,7 +248,7 @@ The `CLAUDE.md` file stores preferences and context. OpenCode reads it at sessio
 
 ## Support This Project
 
-If you find this helpful, consider supporting its development!
+If you find this helpful, consider supporting!
 
 ### Ways to Support
 
@@ -209,13 +257,9 @@ If you find this helpful, consider supporting its development!
 - 📢 **Share** - Tell others about it
 - 💵 **Donate** - Help cover server costs
 
-### Donation Links
-
 <a href="https://buymeacoffee.com/breakingcircuits" target="_blank">
   <img src="https://img.shields.io/badge/Buy%20Me%20a%20Coffee-Donate-yellow?style=for-the-badge&logo=buy-me-a-coffee" alt="Buy Me a Coffee"/>
 </a>
-
-GitHub Sponsors coming soon!
 
 ---
 
