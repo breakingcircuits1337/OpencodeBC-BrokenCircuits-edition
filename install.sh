@@ -76,19 +76,19 @@ cd "$HOME/opencodeBC-MAIN"
 bun install --frozen-lockfile 2>/dev/null || bun install
 
 cd packages/opencode
-bun run build
+OPENCODE_CHANNEL=bc bun run build
 
 # Find and install the binary
 echo "📥 Installing OpenCode binary..."
 
 if [ "$ARCH" = "x86_64" ]; then
-    BINARY="$HOME/opencodeBC-MAIN/packages/opencode/dist/opencode-linux-x64/bin/opencode"
+    BINARY="$HOME/opencodeBC-MAIN/packages/opencode/dist/opencode-linux-x64/bin/opencode-bc"
 elif [ "$ARCH" = "aarch64" ]; then
-    BINARY="$HOME/opencodeBC-MAIN/packages/opencode/dist/opencode-linux-arm64/bin/opencode"
+    BINARY="$HOME/opencodeBC-MAIN/packages/opencode/dist/opencode-linux-arm64/bin/opencode-bc"
 else
     echo -e "${YELLOW}⚠️ Unknown architecture: $ARCH${NC}"
     echo "   Attempting to find any available binary..."
-    BINARY=$(find "$HOME/opencodeBC-MAIN/packages/opencode/dist" -name "opencode" -type f 2>/dev/null | head -1)
+    BINARY=$(find "$HOME/opencodeBC-MAIN/packages/opencode/dist" -name "opencode-bc" -type f 2>/dev/null | head -1)
 fi
 
 if [ -z "$BINARY" ] || [ ! -f "$BINARY" ]; then
@@ -98,12 +98,12 @@ if [ -z "$BINARY" ] || [ ! -f "$BINARY" ]; then
 fi
 
 mkdir -p "$HOME/.local/bin"
-cp "$BINARY" "$HOME/.local/bin/opencode"
-chmod +x "$HOME/.local/bin/opencode"
+cp "$BINARY" "$HOME/.local/bin/opencode-bc"
+chmod +x "$HOME/.local/bin/opencode-bc"
 
 # Add to PATH if needed
 BASHRC="$HOME/.bashrc"
-if ! grep -q ".local/bin/opencode" "$BASHRC" 2>/dev/null; then
+if ! grep -q ".local/bin/opencode-bc" "$BASHRC" 2>/dev/null; then
     echo '' >> "$BASHRC"
     echo '# OpenCode BC' >> "$BASHRC"
     echo 'export PATH="$HOME/.local/bin:$PATH"' >> "$BASHRC"
