@@ -50,13 +50,35 @@ This file stores persistent information about the user and their preferences for
 
 ### AI API Keys
 - **Config File**: `/home/bc/.env`
-- **Hugging Face**: User "breakingcircuits" (has free image generation)
-- **Replicate**: User "breakingcircuits1337" (FLUX and other models)
+- **Hugging Face**: User "breakingcircuits" (free image generation)
+- **Replicate**: User "breakingcircuits1337" (FLUX and models)
+- **Azure AI Foundry** (east2):
+  - Mistral Large 3
+  - Kimi-K2-Thinking
 
 ### GitHub
 - **User**: breakingcircuits1337
 - **SSH Key**: `~/.ssh/hexstrike_key` (authorized)
 - **Tools**: xclip (clipboard access)
+- **Repo**: OpencodeBC-BrokenCircuits-edition (public)
+
+### Custom Models
+- **Models Directory**: `/home/bc/models/`
+- **mistral.py** - Call Mistral 3 Large via Azure
+- **kimi.py** - Call Kimi K2 Thinking via Azure
+- **Usage**: `python models/mistral.py "prompt"`
+
+### Custom Skills Created
+- **azure-llm-bridge** - Skill for calling Azure LLMs from CLI
+  - Location: `/home/bc/skills/azure-llm-bridge/`
+  - Package: `/home/bc/skills/azure-llm-bridge.skill`
+  - Scripts: `mistral.py`, `kimi.py`
+  - Provides easy CLI interface to Mistral 3 Large and Kimi K2 Thinking
+- **azure-cli** - Skill for Azure resource management
+  - Location: `/home/bc/skills/azure-cli/`
+  - Package: `/home/bc/skills/azure-cli.skill`
+  - Scripts: `az-login.sh`, `check-ai-foundry.sh`, `monitor-credits.sh`
+  - Helps manage $4500 Azure credit budget and AI deployments
 
 ---
 
