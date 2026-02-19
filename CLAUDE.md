@@ -97,6 +97,12 @@ This file stores persistent information about the user and their preferences for
   - Uses @magnitudedev/browser-agent for autonomous web research
   - Requires ANTHROPIC_API_KEY for Claude Sonnet 4
   - Usage: `node magnitude-browser.js "research query"`
+- **knowledge-base** - Persistent memory system
+  - Location: `/home/sarah/opencode-bc/knowledge-base/`
+  - Redis (short-term): conversation context, recent learnings
+  - PostgreSQL (long-term): projects, research, facts, preferences
+  - Setup: `sudo bash knowledge-base/scripts/setup.sh`
+  - Usage: `node knowledge-base/src/cli.js learn/recall/search`
 
 ### Infrastructure
 - **Proxmox Server:** Dell PowerEdge R720 XD
