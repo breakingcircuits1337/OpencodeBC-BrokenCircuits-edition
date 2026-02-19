@@ -76,7 +76,7 @@ sudo npm install -g \
 
 # Install OpenCode
 echo "💻 Installing OpenCode CLI..."
-curl -fsSL https://cli.opencode.ai/install.sh | bash
+curl -fsSL https://opencode.ai/install | bash
 
 # Install ZSH if not present
 echo "🐚 Installing ZSH..."
