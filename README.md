@@ -198,6 +198,23 @@ The `CLAUDE.md` file stores preferences and context. OpenCode reads it at sessio
 
 ---
 
+## Support This Project
+
+If you find this helpful, consider supporting its development!
+
+### Ways to Support
+
+- ⭐ **Star the repo** - Helps visibility
+- 🍴 **Fork and customize** - Make it your own
+- 📢 **Share** - Tell others about it
+- 💵 **Donate** - Help cover server costs
+
+### Donation Links
+
+*(Coming soon - setting up GitHub Sponsors)*
+
+---
+
 ## License
 
 MIT License - Feel free to use and modify!
