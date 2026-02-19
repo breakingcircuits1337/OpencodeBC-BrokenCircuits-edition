@@ -5,6 +5,7 @@
 
 <h1 align="center">OpenCode BC</h1>
 <h3 align="center">BrokenCircuits Edition</h3>
+<h4 align="center" style="color: orange;">⚠️ Beta - Expect Some Bumps</h4>
 
 <p align="center">
   <a href="https://github.com/breakingcircuits1337/OpencodeBC-BrokenCircuits-edition">
@@ -33,6 +34,23 @@ git clone git@github.com:breakingcircuits1337/OpencodeBC-BrokenCircuits-edition.
 cd ~/opencode-bc
 bash install.sh
 ```
+
+---
+
+## ⚠️ Beta Notice
+
+> **This project is in early beta.** Things may break, APIs may change, and documentation may be incomplete. Please [report issues](https://github.com/breakingcircuits1337/OpencodeBC-BrokenCircuits-edition/issues) as you find them!
+
+### Known Limitations
+- Build process requires Bun 1.3.9+
+- Some skills may require additional setup
+- Azure integration requires valid API keys
+
+### What's Working
+- OpenCode CLI builds and runs
+- Basic skills loaded
+- TTS speak command
+- GitHub SSH integration
 
 ---
 
