@@ -1,4 +1,4 @@
-#!/home/bc/.venvs/base/bin/python3
+#!/home/sarah/.venvs/base/bin/python3
 """
 Kimi K2 Thinking - Azure OpenAI Client
 

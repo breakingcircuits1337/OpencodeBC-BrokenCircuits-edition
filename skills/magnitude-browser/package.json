@@ -1,0 +1,12 @@
+{
+  "name": "magnitude-browser",
+  "version": "1.0.0",
+  "description": "Magnitude vision-first browser agent skill",
+  "scripts": {
+    "magnitude-browser": "node magnitude-browser.js"
+  },
+  "dependencies": {
+    "@magnitudedev/browser-agent": "^0.3.1",
+    "zod": "^3.22.0"
+  }
+}

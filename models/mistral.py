@@ -1,4 +1,4 @@
-#!/home/bc/.venvs/base/bin/python3
+#!/home/sarah/.venvs/base/bin/python3
 """
 Mistral 3 Large - Azure OpenAI Client
 

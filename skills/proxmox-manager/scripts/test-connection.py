@@ -1,4 +1,4 @@
-#!/home/bc/.venvs/base/bin/python3
+#!/home/sarah/.venvs/base/bin/python3
 """
 Proxmox Connection Test - Verify connectivity to Dell R720 XD
 Usage: python3 test-connection.py

@@ -1,4 +1,4 @@
-#!/home/bc/.venvs/base/bin/python3
+#!/home/sarah/.venvs/base/bin/python3
 import sys
 import os
 from gtts import gTTS

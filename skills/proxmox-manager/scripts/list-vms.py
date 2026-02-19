@@ -1,4 +1,4 @@
-#!/home/bc/.venvs/base/bin/python3
+#!/home/sarah/.venvs/base/bin/python3
 """
 List all VMs and Containers on Proxmox
 Usage: python3 list-vms.py

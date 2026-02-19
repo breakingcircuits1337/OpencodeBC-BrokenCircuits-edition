@@ -1,4 +1,4 @@
-#!/home/bc/.venvs/base/bin/python3
+#!/home/sarah/.venvs/base/bin/python3
 """
 Check Proxmox Node Status and Resources
 Usage: python3 node-status.py
