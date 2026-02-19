@@ -79,6 +79,16 @@ This file stores persistent information about the user and their preferences for
   - Package: `/home/bc/skills/azure-cli.skill`
   - Scripts: `az-login.sh`, `check-ai-foundry.sh`, `monitor-credits.sh`
   - Helps manage $4500 Azure credit budget and AI deployments
+- **proxmox-manager** - Skill for Proxmox VE server management
+  - Location: `/home/bc/skills/proxmox-manager/`
+  - Package: `/home/bc/skills/proxmox-manager.skill`
+  - Scripts: `test-connection.py`, `list-vms.py`, `node-status.py`
+  - Manages Dell PowerEdge R720 XD at 192.168.1.115:8006
+
+### Infrastructure
+- **Proxmox Server:** Dell PowerEdge R720 XD
+  - IP: 192.168.1.115:8006
+  - Web Interface: https://192.168.1.115:8006
 
 ---
 
