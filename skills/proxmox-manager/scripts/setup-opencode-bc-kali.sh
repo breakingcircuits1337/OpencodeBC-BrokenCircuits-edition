@@ -78,6 +78,13 @@ sudo npm install -g \
 echo "💻 Installing OpenCode CLI..."
 curl -fsSL https://cli.opencode.ai/install.sh | bash
 
+# Install ZSH if not present
+echo "🐚 Installing ZSH..."
+sudo apt-get install -y zsh
+
+# Set ZSH as default shell (optional - comment out if you prefer bash)
+# chsh -s $(which zsh)
+
 # Create .env file template
 echo "🔐 Creating environment configuration..."
 cat > ~/.env << 'ENVFILE'
@@ -153,7 +160,7 @@ cat > ~/.config/Code/User/settings.json << 'VSCODE'
     "python.linting.enabled": true,
     "python.linting.flake8Enabled": true,
     "python.formatting.provider": "black",
-    "terminal.integrated.defaultProfile.linux": "bash"
+    "terminal.integrated.defaultProfile.linux": "zsh"
 }
 VSCODE
 
@@ -234,23 +241,70 @@ MISTRAL
 
 chmod +x ~/models/mistral.py
 
-# Create aliases
-echo "🔗 Creating shell aliases..."
-cat >> ~/.bashrc << 'ALIASES'
+# Create ZSH configuration
+echo "🔗 Creating ZSH configuration..."
+cat > ~/.zshrc << 'ZSHRC'
+# OpenCode BC ZSH Configuration for Kali Linux
 
-# OpenCode BC Aliases
+# Enable completions
+autoload -Uz compinit
+compinit
+
+# Aliases
 alias mistral="python3 ~/models/mistral.py"
 alias opencode-bc="opencode"
+alias prox-status="python3 ~/skills/proxmox-manager/scripts/node-status.py 2>/dev/null || echo 'Proxmox scripts not installed'"
+alias prox-vms="python3 ~/skills/proxmox-manager/scripts/list-vms.py 2>/dev/null || echo 'Proxmox scripts not installed'"
+
+# Environment
 export PATH="$PATH:$HOME/bin"
 export EDITOR="code"
 
-# Load environment variables
+# Load .env file
 if [ -f ~/.env ]; then
     set -a
     source ~/.env
     set +a
 fi
-ALIASES
+
+# Python venv shortcut
+alias activate="source ~/.venvs/base/bin/activate"
+
+# TTS function
+speak() {
+    if [ $# -eq 0 ]; then
+        echo "Usage: speak 'text to speak'"
+        return 1
+    fi
+    
+    source ~/.venvs/base/bin/activate
+    python3 -c "
+from gtts import gTTS
+import tempfile
+import os
+import sys
+
+text = ' '.join(sys.argv[1:])
+tts = gTTS(text, lang='en-us')
+
+with tempfile.NamedTemporaryFile(suffix='.mp3', delete=False) as f:
+    temp_file = f.name
+    tts.save(temp_file)
+
+print(f'Playing: {text}')
+os.system(f'cvlc {temp_file} --play-and-exit 2>/dev/null || mpg321 {temp_file} 2>/dev/null || echo TTS: {text}')
+os.remove(temp_file)
+" "$@"
+}
+
+# Custom prompt (Kali style with OpenCode branding)
+PROMPT='%F{green}┌──(%F{blue}%n%F{green}@%F{blue}%m%F{green})-[%F{reset}%1~%F{green}]
+└─%F{blue}$%f '
+
+# Welcome message
+echo "🚀 OpenCode BC - Agent-1337 Ready!"
+echo "Type 'opencode' to start or 'activate' to use Python venv"
+ZSHRC
 
 # Create GitHub SSH setup reminder
 echo "🔑 Creating SSH key setup script..."
@@ -337,15 +391,25 @@ echo "=================="
 echo ""
 echo "📋 NEXT STEPS:"
 echo "1. Edit ~/.env and add your API keys"
-echo "2. Run: source ~/.bashrc"
-echo "3. Test: speak 'Hello from Agent-1337'"
-echo "4. Setup GitHub SSH: ~/bin/setup-github-ssh.sh"
+echo "   nano ~/.env"
+echo ""
+echo "2. Reload ZSH configuration:"
+echo "   source ~/.zshrc"
+echo "   (or just close and reopen your terminal)"
+echo ""
+echo "3. Test TTS:"
+echo "   speak 'Hello from Agent-1337'"
+echo ""
+echo "4. Setup GitHub SSH:"
+echo "   ~/bin/setup-github-ssh.sh"
 echo ""
 echo "🌐 Proxmox Web Interface: https://192.168.1.115:8006"
 echo "🚀 Start OpenCode: opencode"
+echo "🐍 Activate Python venv: activate"
 echo ""
 echo "📁 Files created:"
 echo "   ~/.env - API keys configuration"
+echo "   ~/.zshrc - ZSH configuration with aliases"
 echo "   ~/CLAUDE.md - Memory file"
 echo "   ~/models/mistral.py - Azure Mistral script"
 echo "   ~/bin/speak - TTS tool"
