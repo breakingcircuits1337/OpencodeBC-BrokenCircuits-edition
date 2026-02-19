@@ -1,0 +1,23 @@
+{
+  "name": "knowledge-base",
+  "version": "1.0.0",
+  "description": "Sarah's Knowledge Base - Short and Long-term Memory System",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "redis": "redis-server",
+    "postgres": "sudo -u postgres psql",
+    "status": "node src/cli.js status",
+    "learn": "node src/cli.js learn",
+    "recall": "node src/cli.js recall",
+    "search": "node src/cli.js search"
+  },
+  "dependencies": {
+    "ioredis": "^5.3.2",
+    "pg": "^8.11.3",
+    "dotenv": "^16.3.1",
+    "uuid": "^9.0.0",
+    "readline": "^1.3.0"
+  }
+}
