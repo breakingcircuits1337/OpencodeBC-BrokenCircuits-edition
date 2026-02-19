@@ -1,0 +1,28 @@
+# Secrets
+.env
+.ssh/
+*.pem
+*.key
+
+# Python
+__pycache__/
+*.pyc
+.venvs/
+venv/
+
+# Node
+node_modules/
+npm-debug.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Secrets/M sensitive
+.mcp.json

@@ -1,0 +1,30 @@
+#!/home/bc/.venvs/base/bin/python3
+import sys
+import os
+from gtts import gTTS
+import pygame
+import tempfile
+
+def speak(text, lang='en-us'):
+    """Speak text using Google TTS"""
+    tts = gTTS(text, lang=lang)
+    
+    with tempfile.NamedTemporaryFile(suffix='.mp3', delete=False) as f:
+        temp_file = f.name
+        tts.save(temp_file)
+    
+    try:
+        pygame.mixer.init()
+        pygame.mixer.music.load(temp_file)
+        pygame.mixer.music.play()
+        while pygame.mixer.music.get_busy():
+            pygame.time.Clock().tick(10)
+    finally:
+        os.remove(temp_file)
+
+if __name__ == "__main__":
+    if len(sys.argv) > 1:
+        text = " ".join(sys.argv[1:])
+        speak(text)
+    else:
+        print("Usage: speak 'text to speak'")
