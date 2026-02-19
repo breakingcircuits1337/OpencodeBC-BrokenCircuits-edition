@@ -211,7 +211,11 @@ If you find this helpful, consider supporting its development!
 
 ### Donation Links
 
-*(Coming soon - setting up GitHub Sponsors)*
+<a href="https://buymeacoffee.com/breakingcircuits" target="_blank">
+  <img src="https://img.shields.io/badge/Buy%20Me%20a%20Coffee-Donate-yellow?style=for-the-badge&logo=buy-me-a-coffee" alt="Buy Me a Coffee"/>
+</a>
+
+GitHub Sponsors coming soon!
 
 ---
 
