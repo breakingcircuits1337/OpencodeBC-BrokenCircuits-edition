@@ -37,11 +37,11 @@ echo "📦 Installing system dependencies..."
 if [ "$OS" = "Linux" ]; then
     if command -v apt-get &> /dev/null; then
         sudo apt-get update -qq
-        sudo apt-get install -y -qq git curl build-essential libssl-dev pkg-config
+        sudo apt-get install -y -qq git curl build-essential libssl-dev pkg-config ffmpeg
     elif command -v pacman &> /dev/null; then
-        sudo pacman -S --noconfirm git curl base-devel openssl
+        sudo pacman -S --noconfirm git curl base-devel openssl ffmpeg
     elif command -v dnf &> /dev/null; then
-        sudo dnf install -y git curl openssl-devel
+        sudo dnf install -y git curl openssl-devel ffmpeg
     fi
 fi
 
@@ -192,10 +192,12 @@ with tempfile.NamedTemporaryFile(suffix='.mp3', delete=False) as f:
     tts.save(temp_file)
 
 print(f'Speaking: {text}')
-os.system(f'cvlc {temp_file} --play-and-exit 2>/dev/null || (mpg321 {temp_file} 2>/dev/null) || echo {text}')
+os.system(f'ffplay -nodisp -autoexit -loglevel quiet {temp_file} 2>/dev/null || echo {text}')
 os.remove(temp_file)
 "
 TTS
+    chmod +x "$HOME/bin/speak"
+fi
     chmod +x "$HOME/bin/speak"
 fi
 
