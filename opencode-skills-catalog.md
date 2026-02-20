@@ -1,43 +1,20 @@
-# OpenCode CLI Skills Catalog
+# OpenCode BC Skills Catalog
 
-A comprehensive list of available skills for the OpenCode CLI assistant.
-
----
-
-## Development & Automation
-
-| Skill | Description |
-|-------|-------------|
-| `spawn-team` | Orchestrate agent teams for full-stack app development |
-| `browser-automation` | Playwright/Puppeteer for testing & scraping |
-| `browser-use` | Automate browser interactions |
-| `mcp-integration` | Integrate MCP servers |
-| `claude-automation-recommender` | Recommend Claude Code automations |
+Skills included in the BrokenCircuits Edition distribution.
 
 ---
 
-## AI & Media Generation
+## BC-Specific Skills (In Repo)
 
-| Skill | Description |
-|-------|-------------|
-| `agent-tools` | 150+ AI apps via inference.sh CLI (images, video, LLMs) |
-| `ai-avatar-video` | Create AI talking head videos |
-| `ai-video-generation` | Generate AI videos (Veo, Seedance, Wan) |
-| `agent-ui` | React/Next.js agent components |
+| Skill | Description | Location |
+|-------|-------------|----------|
+| `memory` | ACE-powered memory system with auto-learning | `skills/memory/` |
+| `azure-llm-bridge` | CLI scripts for Mistral & Kimi via Azure | `skills/azure-llm-bridge/` |
+| `azure-cli` | Azure resource management | `skills/azure-cli/` |
+| `proxmox-manager` | Proxmox VM management | `skills/proxmox-manager/` |
+| `magnitude-browser` | Vision-first browser automation | `skills/magnitude-browser/` |
 
----
-
-## Testing & Quality
-
-| Skill | Description |
-|-------|-------------|
-| `webapp-testing` | Playwright for web app testing |
-| `audit-website` | SEO, performance, security audits (230+ rules) |
-| `seo-audit` | SEO review & diagnostics |
-
----
-
-## Process & Workflows
+### Superpowers (Process Skills)
 
 | Skill | Description |
 |-------|-------------|
@@ -49,51 +26,42 @@ A comprehensive list of available skills for the OpenCode CLI assistant.
 | `executing-plans` | Execute written plans |
 | `requesting-code-review` | Code review workflow |
 | `receiving-code-review` | Handle review feedback |
+| `subagent-driven-development` | Multi-agent implementation |
+| `using-git-worktrees` | Isolated workspace workflow |
+| `dispatching-parallel-agents` | Run agents in parallel |
+| `finishing-a-development-branch` | Complete feature workflow |
 
 ---
 
-## Creative & Marketing
-
-| Skill | Description |
-|-------|-------------|
-| `canvas-design` | Create visual art (PNG/PDF) with design philosophies |
-| `copywriting` | Marketing copy for landing pages, CTAs |
-| `marketing-psychology` | 70+ mental models for marketing |
-
----
-
-## Research & OSINT
-
-| Skill | Description |
-|-------|-------------|
-| `OSINT` | Open source intelligence gathering |
-| `seo-audit` | Technical SEO analysis |
-
----
-
-## Other Skills
-
-| Skill | Description |
-|-------|-------------|
-| `documentation-templates` | README, API docs, code comments |
-| `skill-creator` | Create new skills |
-| `product-operations` | Scale product teams |
-
----
-
-## How to Use Skills
+## Usage
 
 ```bash
-# List available skills
-skill list
+# Memory commands
+memory add "Use black for Python formatting"
+memory search python
+memory ace run coding "context here"
 
-# Load a skill
-skill <skill-name>
+# Azure
+bash scripts/az-login.sh
+python scripts/mistral.py "prompt"
 
-# Example
-skill canvas-design
+# Proxmox
+python scripts/list-vms.py
+python scripts/node-status.py
 ```
 
 ---
 
-*Generated: 2026-02-19*
+## Memory System Features
+
+The `memory` skill includes:
+
+- **Phase 1**: add, search, remove entries
+- **Phase 2**: export, import, vote
+- **Phase 3**: auto-learn from errors and feedback
+- **Phase 4**: Full ACE framework (Generator/Reflector/Curator)
+
+---
+
+*Generated: 2026-02-20*
+*Part of OpenCode BC - BrokenCircuits Edition*

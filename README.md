@@ -221,10 +221,21 @@ cd ~/opencodeBC-MAIN
 git pull
 bun install
 cd packages/opencode
-bun run build
+OPENCODE_CHANNEL=bc bun run build
 
 # Reinstall binary
-cp dist/opencode-linux-x64/bin/opencode ~/.local/bin/opencode
+cp dist/opencode-linux-x64/bin/opencode-bc ~/.local/bin/opencode-bc
+```
+
+### Uninstall
+
+```bash
+# Remove files
+rm ~/.local/bin/opencode-bc
+rm -rf ~/opencode-bc
+rm -rf ~/opencodeBC-MAIN
+rm -rf ~/.config/opencode
+rm -rf ~/.config/opencode/memory
 ```
 
 ---
