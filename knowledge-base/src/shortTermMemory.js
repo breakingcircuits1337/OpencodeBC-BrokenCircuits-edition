@@ -9,8 +9,8 @@ const CONTEXT_TTL = 300; // 5 minutes for active context
 class ShortTermMemory {
     constructor(options = {}) {
         this.redis = null;
-        this.host = options.host || 'localhost';
-        this.port = options.port || 6379;
+        this.host = options.host || process.env.REDIS_HOST || 'localhost';
+        this.port = options.port || process.env.REDIS_PORT || 6379;
         this.connected = false;
     }
 

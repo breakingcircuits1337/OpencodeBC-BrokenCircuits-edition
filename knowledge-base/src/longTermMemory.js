@@ -9,11 +9,11 @@ const { Pool } = pg;
 class LongTermMemory {
     constructor(options = {}) {
         this.pool = null;
-        this.host = options.host || 'localhost';
-        this.port = options.port || 5432;
-        this.database = options.database || 'knowledge_base';
-        this.user = options.user || 'sarah';
-        this.password = options.password || '';
+        this.host = options.host || process.env.POSTGRES_HOST || 'localhost';
+        this.port = options.port || process.env.POSTGRES_PORT || 5432;
+        this.database = options.database || process.env.DATABASE || 'knowledge_base';
+        this.user = options.user || process.env.POSTGRES_USER || 'sarah';
+        this.password = options.password || process.env.POSTGRES_PASSWORD || 'sarah123';
         this.connected = false;
     }
 

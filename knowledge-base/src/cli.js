@@ -1,7 +1,7 @@
 // Knowledge Base CLI
 
 import readline from 'readline';
-import KnowledgeBase from './src/index.js';
+import KnowledgeBase from './index.js';
 
 const rl = readline.createInterface({
     input: process.stdin,
@@ -87,8 +87,8 @@ async function main() {
             break;
 
         case 'facts':
-            const category = args[1];
-            const facts = await kb.getFacts(category);
+            const factsCategory = args[1];
+            const facts = await kb.getFacts(factsCategory);
             console.log(`Found ${facts.length} facts:`);
             facts.forEach(f => console.log(`  - ${f.fact}`));
             break;
