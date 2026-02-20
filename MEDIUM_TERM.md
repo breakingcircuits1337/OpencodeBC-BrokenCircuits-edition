@@ -14,10 +14,10 @@ This file stores context that persists across sessions but isn't permanent - pro
 
 ## Recent Learnings
 
-- Memory function: Created /home/bc/bin/memory.py to load memory files in order
-- TTS always-on: Configured to speak every response via /home/bc/bin/speak
-- Voice Input: Created /home/bc/bin/listen.py using Azure Speech SDK for STT
-- Ollama Skill: Created /home/bc/skills/ollama/ for free offline local LLM inference
+- Memory function: Created ~/bin/memory.py to load memory files in order
+- TTS always-on: Configured to speak every response via ~/bin/speak
+- Voice Input: Created ~/bin/listen.py using Azure Speech SDK for STT
+- Ollama Skill: Created ~/skills/ollama/ for free offline local LLM inference
 - BC Plan: Created opencodeBC-MAIN/BC_PLAN.md with strategy to beat OpenCLAW and Claude Code
 - System Tray: Added to desktop app (src-tauri/src/tray.rs)
 - Magnitude: Created self-improvement skill with research, search, debate commands

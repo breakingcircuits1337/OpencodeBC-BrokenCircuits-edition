@@ -15,7 +15,7 @@ class KnowledgeBase {
             host: options.postgresHost || 'localhost',
             port: options.postgresPort || 5432,
             database: options.database || 'knowledge_base',
-            user: options.user || 'sarah',
+            user: options.user || process.env.POSTGRES_USER || 'opencode',
             password: options.password || ''
         });
 

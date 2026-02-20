@@ -1,30 +1,54 @@
-#!/home/sarah/.venvs/base/bin/python3
+#!/bin/bash
+# Text-to-Speech using gTTS
+# Usage: speak "text to speak"
+
+if [ $# -eq 0 ]; then
+    echo "Usage: speak 'text to speak'"
+else
+    # Check for gTTS
+    if python3 -c "import gtts" >/dev/null 2>&1; then
+        python3 -c "
 import sys
 import os
-from gtts import gTTS
-import pygame
 import tempfile
+from gtts import gTTS
 
-def speak(text, lang='en-us'):
-    """Speak text using Google TTS"""
-    tts = gTTS(text, lang=lang)
+try:
+    text = ' '.join(sys.argv[1:])
+    tts = gTTS(text=text, lang='en')
     
-    with tempfile.NamedTemporaryFile(suffix='.mp3', delete=False) as f:
-        temp_file = f.name
-        tts.save(temp_file)
+    # Create temp file
+    fd, temp_path = tempfile.mkstemp(suffix='.mp3')
+    os.close(fd)
     
-    try:
-        pygame.mixer.init()
-        pygame.mixer.music.load(temp_file)
-        pygame.mixer.music.play()
-        while pygame.mixer.music.get_busy():
-            pygame.time.Clock().tick(10)
-    finally:
-        os.remove(temp_file)
+    tts.save(temp_path)
 
-if __name__ == "__main__":
-    if len(sys.argv) > 1:
-        text = " ".join(sys.argv[1:])
-        speak(text)
-    else:
-        print("Usage: speak 'text to speak'")
+    # Try players: ffplay, mpg123, cvlc
+    players = [
+        f'ffplay -nodisp -autoexit -loglevel quiet {temp_path} >/dev/null 2>&1',
+        f'mpg123 -q {temp_path} >/dev/null 2>&1',
+        f'cvlc --play-and-exit {temp_path} >/dev/null 2>&1'
+    ]
+
+    print(f'Speaking: {text}')
+
+    success = False
+    for p in players:
+        if os.system(p) == 0:
+            success = True
+            break
+
+    if not success:
+        print('(Audio playback failed - install ffplay or mpg123)')
+
+    if os.path.exists(temp_path):
+        os.remove(temp_path)
+
+except Exception as e:
+    print(f'Error: {e}')
+" "$@"
+    else
+        echo "Error: gTTS python package not found. Run: pip install gTTS"
+        echo "Text: $*"
+    fi
+fi

@@ -102,10 +102,10 @@ Instead of complex Azure CLI commands, use these simple wrappers:
 
 ```bash
 # Call Mistral 3 Large
-python3 /home/sarah/models/mistral.py "Your prompt here"
+python3 ~/models/mistral.py "Your prompt here"
 
 # Call Kimi K2 Thinking  
-python3 /home/sarah/models/kimi.py "Your prompt here"
+python3 ~/models/kimi.py "Your prompt here"
 ```
 
 Or use the aliases:
@@ -201,7 +201,7 @@ While OpenCode doesn't natively support Azure AI Foundry models, you can:
 2. **Create custom provider** (advanced)
 3. **Use Azure OpenAI** (if you deploy GPT models)
 
-The scripts in `/home/sarah/models/` provide seamless access to your Mistral and Kimi deployments.
+The scripts in `~/models/` provide seamless access to your Mistral and Kimi deployments.
 
 ---
 

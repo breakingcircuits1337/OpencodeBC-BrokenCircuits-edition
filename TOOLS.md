@@ -3,13 +3,13 @@
 Skills define *how* tools work. This file is for *your* specifics — the stuff that's unique to your setup.
 
 ## TTS (Text-to-Speech)
-- **Script:** `/home/bc/bin/speak`
-- **Usage:** `/home/bc/bin/speak "text to speak"`
+- **Script:** `~/bin/speak`
+- **Usage:** `~/bin/speak "text to speak"`
 - **ALWAYS USE:** Speak every response via TTS after responding
 
 ## STT (Voice Input)
-- **Script:** `/home/bc/bin/listen.py`
-- **Usage:** `python /home/bc/bin/listen.py [duration_seconds]`
+- **Script:** `~/bin/listen.py`
+- **Usage:** `python ~/bin/listen.py [duration_seconds]`
 - Uses Azure Speech SDK
 
 ## SSH
@@ -21,7 +21,7 @@ Skills define *how* tools work. This file is for *your* specifics — the stuff 
 - **Usage:** `python models/mistral.py "prompt"`
 
 ## Memory System
-- **Script:** `/home/bc/bin/memory.py`
+- **Script:** `~/bin/memory.py`
 - Loads: CLAUDE.md → MEDIUM_TERM.md → SHORT_TERM.md
 
 ---

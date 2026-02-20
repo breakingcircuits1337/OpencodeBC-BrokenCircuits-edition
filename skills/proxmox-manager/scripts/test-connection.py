@@ -1,4 +1,4 @@
-#!/home/sarah/.venvs/base/bin/python3
+#!/usr/bin/env python3
 """
 Proxmox Connection Test - Verify connectivity to Dell R720 XD
 Usage: python3 test-connection.py
@@ -14,7 +14,7 @@ from proxmoxer import ProxmoxAPI
 
 PROXMOX_HOST = os.getenv("PROXMOX_HOST", "192.168.1.115")
 PROXMOX_PORT = os.getenv("PROXMOX_PORT", "8006")
-PROXMOX_USER = os.getenv("PROXMOX_USER", "sarah@pam")
+PROXMOX_USER = os.getenv("PROXMOX_USER", "root@pam")
 PROXMOX_PASS = os.getenv("PROXMOX_PASS", "")
 PROXMOX_TOKEN_SECRET = os.getenv("PROXMOX_TOKEN_SECRET", "")
 
@@ -33,7 +33,7 @@ def test_connection():
         # Try API token first (preferred method)
         if PROXMOX_TOKEN_SECRET:
             # proxmoxer 2.x uses password field for token with special prefix
-            token_id = os.getenv("PROXMOX_TOKEN_ID", "sarah@pam@pam")
+            token_id = os.getenv("PROXMOX_TOKEN_ID", "root@pam@pam")
             proxmox = ProxmoxAPI(
                 PROXMOX_HOST,
                 user=PROXMOX_USER,

@@ -8,7 +8,7 @@
 
 set -e
 
-echo "🔧 OpenCode BC - BrokenCircuits Edition Installer"
+echo "💀 Deploying OpenCode BC - The Defender's Arsenal"
 echo "================================================="
 echo ""
 
@@ -32,7 +32,7 @@ echo "📁 Install directory: $INSTALL_DIR"
 echo ""
 
 # Step 1: Install system dependencies
-echo "📦 Installing system dependencies..."
+echo "Injecting system dependencies..."
 
 if [ "$OS" = "Linux" ]; then
     if command -v apt-get &> /dev/null; then
@@ -136,6 +136,10 @@ REPLICATE_API_TOKEN=
 # Azure AI Foundry
 AZURE_API_KEY=
 AZURE_REGION=east2
+
+# Azure OpenAI Endpoints
+MISTRAL_ENDPOINT=
+KIMI_ENDPOINT=
 EOF
     echo "   Created ~/.env template - add your API keys"
 fi
@@ -169,6 +173,12 @@ echo "📜 Creating convenience scripts..."
 mkdir -p "$HOME/bin"
 
 # Speak script
+if [ -f "$INSTALL_DIR/bin/speak" ]; then
+    cp "$INSTALL_DIR/bin/speak" "$HOME/bin/speak"
+    chmod +x "$HOME/bin/speak"
+fi
+    echo "   Installed speak script from repo"
+else
 if [ ! -f "$HOME/bin/speak" ]; then
     cat > "$HOME/bin/speak" << 'TTS'
 #!/bin/bash
@@ -198,7 +208,9 @@ os.remove(temp_file)
 TTS
     chmod +x "$HOME/bin/speak"
 fi
+fi
     chmod +x "$HOME/bin/speak"
+fi
 fi
 
 # Update PATH in bashrc
@@ -207,7 +219,7 @@ if ! grep -q "HOME/bin" "$BASHRC" 2>/dev/null; then
 fi
 
 echo ""
-echo -e "${GREEN}✅ Installation Complete!${NC}"
+echo -e "${GREEN}💀 Deployment Successful. Defense Grid Active.${NC}"
 echo "================================"
 echo ""
 echo "📋 Next steps:"
@@ -226,3 +238,8 @@ echo "💡 To update later, run:"
 echo "   cd $INSTALL_DIR && git pull"
 echo "   cd $HOME/opencodeBC-MAIN && git pull && bun run build"
 echo ""
+
+# Launch Wake Sequence
+if [ -f bin/wake_up.py ]; then
+    python3 bin/wake_up.py
+fi

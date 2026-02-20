@@ -41,19 +41,19 @@ echo "Configuring PostgreSQL..."
 # Create database and user
 sudo -u postgres psql << EOF
 -- Create user
-CREATE USER sarah WITH PASSWORD 'sarah' SUPERUSER;
+CREATE USER opencode WITH PASSWORD 'opencode123' SUPERUSER;
 
 -- Create database
-CREATE DATABASE knowledge_base OWNER sarah;
+CREATE DATABASE knowledge_base OWNER opencode;
 
 -- Grant privileges
-GRANT ALL PRIVILEGES ON DATABASE knowledge_base TO sarah;
+GRANT ALL PRIVILEGES ON DATABASE knowledge_base TO opencode;
 
 -- Connect and grant schema access
 \c knowledge_base
-GRANT ALL ON SCHEMA public TO sarah;
-ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO sarah;
-ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON SEQUENCES TO sarah;
+GRANT ALL ON SCHEMA public TO opencode;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO opencode;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON SEQUENCES TO opencode;
 
 \echo '✅ PostgreSQL configured'
 EOF
@@ -82,7 +82,7 @@ else
 fi
 
 # Test PostgreSQL
-if sudo -u sarah psql -d knowledge_base -c "SELECT 1" > /dev/null 2>&1; then
+if sudo -u opencode psql -d knowledge_base -c "SELECT 1" > /dev/null 2>&1; then
     echo "✅ PostgreSQL: Connected"
 else
     echo "❌ PostgreSQL: Failed"
