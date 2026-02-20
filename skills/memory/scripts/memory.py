@@ -119,6 +119,101 @@ def remove_entry(identifier):
             return True
     return False
 
+def export_playbook(filepath):
+    ensure_dir()
+    data = load_playbook()
+    
+    output = ["# OpenCode BC Memory Playbook", "", "## Strategies & Insights", ""]
+    
+    for entry_id, entry in data["entries"].items():
+        if entry["category"] == "strategies":
+            clean_id = entry_id.strip("[]")
+            output.append(f"[{clean_id}] helpful={entry['helpful']} harmful={entry['harmful']} :: {entry['content']}")
+    
+    output.extend(["", "## Common Errors", ""])
+    for entry_id, entry in data["entries"].items():
+        if entry["category"] == "errors":
+            clean_id = entry_id.strip("[]")
+            output.append(f"[{clean_id}] helpful={entry['helpful']} harmful={entry['harmful']} :: {entry['content']}")
+    
+    output.extend(["", "## User Preferences", ""])
+    for entry_id, entry in data["entries"].items():
+        if entry["category"] == "preferences":
+            clean_id = entry_id.strip("[]")
+            output.append(f"[{clean_id}] helpful={entry['helpful']} harmful={entry['harmful']} :: {entry['content']}")
+    
+    output.extend(["", "## Commands", ""])
+    for entry_id, entry in data["entries"].items():
+        if entry["category"] == "commands":
+            clean_id = entry_id.strip("[]")
+            output.append(f"[{clean_id}] helpful={entry['helpful']} harmful={entry['harmful']} :: {entry['content']}")
+    
+    Path(filepath).write_text("\n".join(output))
+    return True
+
+def import_playbook(filepath):
+    ensure_dir()
+    data = load_playbook()
+    
+    content = Path(filepath).read_text()
+    lines = content.split("\n")
+    
+    for line in lines:
+        line = line.strip()
+        if not line or line.startswith("#") or line.startswith("##"):
+            continue
+        
+        if "::" in line:
+            try:
+                id_part, rest = line.split("]", 1)
+                content_part = rest.split("::", 1)[1].strip()
+                category = "strategies"
+                
+                if "errors" in line.lower():
+                    category = "errors"
+                elif "preferences" in line.lower():
+                    category = "preferences"
+                elif "commands" in line.lower():
+                    category = "commands"
+                
+                entry_id = id_part.replace("[", "").strip()
+                
+                if entry_id not in data["entries"]:
+                    data["entries"][f"[{entry_id}]"] = {
+                        "content": content_part,
+                        "category": category,
+                        "helpful": 0,
+                        "harmful": 0,
+                        "created": datetime.now().isoformat(),
+                        "updated": datetime.now().isoformat()
+                    }
+            except:
+                pass
+    
+    save_playbook(data)
+    return True
+
+def vote_entry(identifier, vote_type):
+    ensure_dir()
+    data = load_playbook()
+    
+    identifier = identifier.strip()
+    if not identifier.startswith("["):
+        identifier = f"[{identifier}"
+    if not identifier.endswith("]"):
+        identifier = f"{identifier}]"
+    
+    for entry_id in list(data["entries"].keys()):
+        if entry_id == identifier:
+            if vote_type == "helpful":
+                data["entries"][entry_id]["helpful"] += 1
+            elif vote_type == "harmful":
+                data["entries"][entry_id]["harmful"] += 1
+            data["entries"][entry_id]["updated"] = datetime.now().isoformat()
+            save_playbook(data)
+            return True
+    return False
+
 def get_stats():
     ensure_dir()
     data = load_playbook()
@@ -164,6 +259,24 @@ def main():
         else:
             print("Not found")
     
+    elif cmd == "export" and len(sys.argv) > 2:
+        if export_playbook(sys.argv[2]):
+            print(f"Exported to {sys.argv[2]}")
+        else:
+            print("Export failed")
+    
+    elif cmd == "import" and len(sys.argv) > 2:
+        if import_playbook(sys.argv[2]):
+            print(f"Imported from {sys.argv[2]}")
+        else:
+            print("Import failed")
+    
+    elif cmd == "vote" and len(sys.argv) > 3:
+        if vote_entry(sys.argv[2], sys.argv[3]):
+            print("Voted")
+        else:
+            print("Not found")
+    
     elif cmd == "stats":
         stats = get_stats()
         print(f"Total entries: {stats['total']}")
@@ -173,7 +286,7 @@ def main():
             print(f"Last updated: {stats['last_updated']}")
     
     else:
-        print("Commands: add, search, remove, stats")
+        print("Commands: add, search, remove, export, import, vote, stats")
 
 if __name__ == "__main__":
     main()

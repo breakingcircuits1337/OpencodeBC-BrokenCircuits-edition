@@ -42,6 +42,13 @@ Categories: strategies, errors, preferences, commands
 /forget python
 ```
 
+### Vote on Entry
+
+```
+/vote str-00001 helpful   # Mark as helpful
+/vote str-00001 harmful  # Mark as not helpful
+```
+
 ### View Stats
 
 ```
@@ -65,8 +72,8 @@ Categories: strategies, errors, preferences, commands
 ## Examples
 
 ```
-> /remember Azure API key is in ~/.env
-Added: [str-00002]
+> /remember Use python3 -m venv for virtual environments
+Added: [str-00001]
 
 > /recall azure
 [str-00002] [strategies] Azure API key is in ~/.env
@@ -75,4 +82,10 @@ Added: [str-00002]
 Total entries: 2
   strategies: 2
 Last updated: 2026-02-19
+
+> /vote str-00001 helpful
+Voted
+
+> /memory export ~/backup.md
+Exported to ~/backup.md
 ```
