@@ -1,21 +1,16 @@
-# OpenCode BC - The Defender's Arsenal
-WARNING: Authorized Personnel Only
+<!-- markdownlint-disable -->
+# OpenCode BC - H@X0R Edition
+### The Bad Guy's Bad Guy
 
-## Mission Brief
-This is OpenCode BC - a hardened fork of the OpenCode AI assistant. It is not designed to be polite. It is designed to be effective.
-
-We took the standard AI, stripped out the corporate bloat, and injected the soul of a Reformed Black Hat. It thinks like an attacker so it can defend like a fortress.
+## Mission Brief: The Origin of Rosey
+Forged in a 2.5-month war against an APT group. The creator, **BreakingCircuits**, started with zero Python knowledge and a pink Dell notebook named **"Rosey Cockblaster"** running a live boot USB with 1GB of RAM.
+Why 1GB? Because the malware payload was 4.3GB. It physically couldn't fit. **Hardware limitations became the firewall.**
 
 ## Capabilities
-- Offensive Security Mindset
-- Hardened Python Env
-- Azure AI Bridge
-- Memory Persistence
+- **Vibe Coding**: Improvise, Adapt, Overcome.
+- **Offense is Defense**: Built to be the Bad Guy's Bad Guy.
 
 ## Installation
-Execute install.sh to deploy.
+Execute install.sh to deploy. **READ THE SCRIPTS.**
 
-## Configuration
-Edit ~/.env to secure your keys.
-
-Forged in the dark. Deployed for the light.
+[BreakingCircuits.com](https://breakingcircuits.com) | [@breakingcircuits1337](https://github.com/breakingcircuits1337)

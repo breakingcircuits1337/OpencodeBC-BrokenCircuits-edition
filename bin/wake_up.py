@@ -28,15 +28,15 @@ def main():
     reset = '[0m'
 
     print(f"{green}")
-    print("Initializing OpenCode BC Defense Grid...")
+    print("Initializing OpenCode BC - H@X0R Edition...")
     time.sleep(1)
 
     modules = [
-        "Loading core heuristics...",
-        "Scanning for vulnerabilities...",
-        "Establishing secure uplink to Azure...",
-        "Purging legacy protocols...",
-        "Injecting offensive countermeasures..."
+        "Checking Rosey's Legacy Protocols...",
+        "Scanning for 4.3GB Payloads...",
+        "RAM Check: Optimization required (Rosey ran on 1GB)...",
+        "Bypassing Xfinity Wall...",
+        "Deploying Counter-APT Measures..."
     ]
 
     for mod in modules:
@@ -50,7 +50,7 @@ def main():
     print(f"{reset}
 ")
 
-    intro = "System Online. I am OpenCode BC. I see you have deployed me."
+    intro = "System Online. I am the Bad Guy's Bad Guy. Built from the ashes of a 2.5-month war."
     speak(intro)
     type_effect(intro)
 
@@ -69,7 +69,7 @@ def main():
     if not codename:
         codename = "Operator"
 
-    response = f"Acknowledged, {codename}. Defense protocols active. I am ready to hunt."
+    response = f"Acknowledged, {codename}. The 5 foreign actors won't see us coming. Welcome to the resistance."
     speak(response)
     type_effect(f"{green}{response}{reset}")
 
@@ -85,7 +85,7 @@ def main():
     st_file = Path.home() / "SHORT_TERM.md"
     timestamp = time.strftime("%Y-%m-%d %H:%M:%S")
     entry = f"
-- **{timestamp}**: System initialized by Operator {codename}. Defense grid active.
+- **{timestamp}**: System initialized by Operator {codename}. Rosey's legacy active.
 "
 
     if st_file.exists():
@@ -93,7 +93,7 @@ def main():
             f.write(entry)
 
     print(f"
-{red}WARNING: WE ARE LIVE.{reset}
+{red}WARNING: READ THE SCRIPTS. WE ARE LIVE.{reset}
 ")
     time.sleep(1)
 
