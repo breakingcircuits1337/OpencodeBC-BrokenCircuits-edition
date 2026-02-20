@@ -428,8 +428,253 @@ def main():
             config = get_config()
             print(json.dumps(config, indent=2))
     
+    elif cmd == "ace":
+        if len(sys.argv) > 2:
+            if sys.argv[2] == "run" and len(sys.argv) > 3:
+                task_type = sys.argv[3] if len(sys.argv) > 4 else "general"
+                context = " ".join(sys.argv[4:]) if len(sys.argv) > 4 else ""
+                result = ace_run(task_type, context)
+                print(json.dumps(result, indent=2))
+            elif sys.argv[2] == "status":
+                status = ace_status()
+                print(json.dumps(status, indent=2))
+            elif sys.argv[2] == "enable":
+                print(ace_enable())
+            elif sys.argv[2] == "disable":
+                print(ace_disable())
+            elif sys.argv[2] == "deduplicate":
+                print(ace_deduplicate())
+            else:
+                print("ACE commands: run, status, enable, disable, deduplicate")
+        else:
+            print("ACE commands: run, status, enable, disable, deduplicate")
+    
     else:
-        print("Commands: add, search, remove, export, import, vote, stats, learn, review, config")
+        print("Commands: add, search, remove, export, import, vote, stats, learn, review, config, ace")
+
+# ========== ACE FRAMEWORK ==========
+
+class ACEGenerator:
+    """Generates playbook entries based on context"""
+    
+    def generate(self, context, task_type="general"):
+        insights = []
+        
+        if task_type == "coding":
+            insights.extend(self._extract_coding_insights(context))
+        elif task_type == "debugging":
+            insights.extend(self._extract_debugging_insights(context))
+        elif task_type == "general":
+            insights.extend(self._extract_general_insights(context))
+        
+        return insights
+    
+    def _extract_coding_insights(self, context):
+        insights = []
+        context_lower = context.lower()
+        
+        if "python" in context_lower:
+            insights.append("Use type hints for better code clarity")
+        if "function" in context_lower:
+            insights.append("Keep functions small and focused")
+        if "error" in context_lower or "bug" in context_lower:
+            insights.append("Add error handling early")
+        
+        return insights
+    
+    def _extract_debugging_insights(self, context):
+        insights = []
+        context_lower = context.lower()
+        
+        if "traceback" in context_lower or "error" in context_lower:
+            insights.append("Read error messages from bottom to top")
+        if "none" in context_lower:
+            insights.append("Check for None values first")
+        
+        return insights
+    
+    def _extract_general_insights(self, context):
+        return ["Document your assumptions"]
+
+
+class ACEReflector:
+    """Reflects on interactions to extract lessons"""
+    
+    def reflect(self, interaction_log):
+        lessons = []
+        
+        if not interaction_log:
+            return lessons
+        
+        lines = interaction_log.split("\n")
+        
+        for line in lines:
+            line_lower = line.lower()
+            
+            if "success" in line_lower or "worked" in line_lower:
+                lessons.append({"type": "keep", "content": "Continue this approach"})
+            if "failed" in line_lower or "error" in line_lower:
+                lessons.append({"type": "improve", "content": "Analyze failure cause"})
+        
+        return lessons
+    
+    def analyze_entry(self, entry):
+        helpful = entry.get("helpful", 0)
+        harmful = entry.get("harmful", 0)
+        
+        if harmful > helpful:
+            return "low_quality"
+        elif helpful > 10:
+            return "high_value"
+        return "neutral"
+
+
+class ACECurator:
+    """Manages playbook evolution with deduplication"""
+    
+    def curate(self, new_entries):
+        data = load_playbook()
+        added = []
+        
+        for entry in new_entries:
+            content = entry.get("content", "")
+            category = entry.get("category", "strategies")
+            
+            if not content:
+                continue
+            
+            existing = self._find_similar(data["entries"], content)
+            
+            if existing:
+                self._merge_entry(data["entries"], existing, entry)
+            else:
+                entry_id = get_next_id(category)
+                data["entries"][entry_id] = {
+                    "content": content,
+                    "category": category,
+                    "helpful": 1,
+                    "harmful": 0,
+                    "created": datetime.now().isoformat(),
+                    "updated": datetime.now().isoformat()
+                }
+                added.append(entry_id)
+        
+        save_playbook(data)
+        return added
+    
+    def _find_similar(self, entries, content):
+        content_lower = content.lower()
+        content_words = set(content_lower.split())
+        
+        best_match = None
+        best_score = 0
+        
+        for entry_id, entry in entries.items():
+            entry_content = entry["content"].lower()
+            entry_words = set(entry_content.split())
+            
+            overlap = len(content_words & entry_words)
+            score = overlap / max(len(content_words), 1)
+            
+            if score > 0.6 and score > best_score:
+                best_score = score
+                best_match = entry_id
+        
+        return best_match
+    
+    def _merge_entry(self, entries, existing_id, new_entry):
+        if existing_id in entries:
+            entries[existing_id]["helpful"] += new_entry.get("helpful", 1)
+            entries[existing_id]["harmful"] += new_entry.get("harmful", 0)
+            entries[existing_id]["updated"] = datetime.now().isoformat()
+    
+    def deduplicate(self):
+        data = load_playbook()
+        curator = ACECurator()
+        
+        entries_to_add = []
+        for entry_id, entry in list(data["entries"].items()):
+            entries_to_add.append(entry)
+            del data["entries"][entry_id]
+        
+        save_playbook(data)
+        
+        return curator.curate(entries_to_add)
+
+
+def ace_run(task_type="general", context=""):
+    ensure_dir()
+    config = load_config()
+    
+    if not config.get("ace_enabled", True):
+        return {"error": "ACE is disabled"}
+    
+    generator = ACEGenerator()
+    reflector = ACEReflector()
+    curator = ACECurator()
+    
+    generated = generator.generate(context, task_type)
+    
+    if context:
+        lessons = reflector.reflect(context)
+    else:
+        lessons = []
+    
+    new_entries = []
+    for insight in generated:
+        new_entries.append({
+            "content": insight,
+            "category": "strategies",
+            "helpful": 0,
+            "harmful": 0
+        })
+    
+    added = curator.curate(new_entries)
+    
+    return {
+        "generated": generated,
+        "lessons": lessons,
+        "added": added,
+        "total_entries": len(load_playbook()["entries"])
+    }
+
+
+def ace_status():
+    config = load_config()
+    data = load_playbook()
+    
+    stats = {
+        "ace_enabled": config.get("ace_enabled", True),
+        "total_entries": len(data["entries"]),
+        "llm_provider": config.get("llm_provider", "none"),
+        "llm_model": config.get("llm_model", "none")
+    }
+    
+    quality_counts = {"high_value": 0, "neutral": 0, "low_quality": 0}
+    reflector = ACEReflector()
+    
+    for entry in data["entries"].values():
+        quality = reflector.analyze_entry(entry)
+        quality_counts[quality] += 1
+    
+    stats["quality_distribution"] = quality_counts
+    
+    return stats
+
+
+def ace_enable():
+    set_config("ace_enabled", True)
+    return "ACE enabled"
+
+def ace_disable():
+    set_config("ace_enabled", False)
+    return "ACE disabled"
+
+def ace_deduplicate():
+    curator = ACECurator()
+    added = curator.deduplicate()
+    return f"Deduplicated. Added: {added}"
+
 
 if __name__ == "__main__":
     main()

@@ -100,6 +100,54 @@ memory config learn_from_errors true   # Enable/disable
 memory config learn_from_feedback true
 ```
 
+## ACE Framework (Phase 4)
+
+Full ACE (Agentic Context Engineering) integration for self-improving playbooks.
+
+### ACE Status
+
+Show ACE system status:
+
+```
+memory ace status
+# Output:
+# {
+#   "ace_enabled": true,
+#   "total_entries": 15,
+#   "quality_distribution": {"high_value": 3, "neutral": 10, "low_quality": 2}
+# }
+```
+
+### ACE Run
+
+Run ACE cycle to generate insights:
+
+```
+memory ace run coding "Python debugging session"
+memory ace run debugging "Error in traceback"
+memory ace run general "Any context here"
+```
+
+This:
+1. **Generator** - Creates insights based on context
+2. **Reflector** - Analyzes for lessons
+3. **Curator** - Adds to playbook (with deduplication)
+
+### ACE Enable/Disable
+
+```
+memory ace enable
+memory ace disable
+```
+
+### ACE Deduplicate
+
+Find and merge duplicate entries:
+
+```
+memory ace deduplicate
+```
+
 ## Files
 
 - Script: `scripts/memory.py`
@@ -110,17 +158,21 @@ memory config learn_from_feedback true
 ## Examples
 
 ```
-> memory learn error "KeyError: 'foo'"
-Learned from error: [err-00001]
+> memory ace run coding "working on Python function"
+{
+  "generated": ["Use type hints for better code clarity"],
+  "lessons": [],
+  "added": ["[str-00001]"],
+  "total_entries": 16
+}
 
-> memory search
-[str-00001] [strategies] Use python3 -m venv for virtual environments
-[err-00001] [errors] Check if key exists in dictionary
+> memory ace status
+{
+  "ace_enabled": true,
+  "total_entries": 16,
+  "quality_distribution": {"high_value": 3, "neutral": 11, "low_quality": 2}
+}
 
-> memory review
-Playbook Review:
-  - Consider removing: <entry with high harmful votes>
-
-> memory config
-{"auto_learn": true, "learn_from_errors": true, ...}
+> memory ace deduplicate
+Deduplicated. Added: [...]
 ```
