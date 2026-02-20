@@ -73,7 +73,8 @@ This is a customized distribution of **OpenCode CLI** - the AI assistant that li
 - 🎨 **AI Image Generation** - Stable Diffusion XL via Hugging Face
 - 🔊 **Text-to-Speech** - Natural Google TTS voice
 - 🔐 **GitHub Integration** - SSH authentication ready
-- 💾 **Persistent Memory** - CLAUDE.md for context retention
+- 💾 **Persistent Memory** - Multi-file memory system (CLAUDE.md, SOUL.md, USER.md, TOOLS.md, AGENTS.md)
+- 🧠 **Memory Loader** - Run `python3 ~/bin/memory.py` to load all memory files
 - 🛠️ **20+ Specialized Skills** - For development, testing, media, and more
 
 ---
@@ -84,14 +85,19 @@ This is a customized distribution of **OpenCode CLI** - the AI assistant that li
 OpencodeBC-BrokenCircuits-edition/
 ├── install.sh                 # One-command installer
 ├── README.md                  # This file
-├── CLAUDE.md                  # Persistent memory template
+├── CLAUDE.md                  # Long-term memory (identity, prefs, skills)
+├── SOUL.md                    # AI philosophical core
+├── USER.md                    # User profile
+├── TOOLS.md                   # Local infrastructure notes
+├── AGENTS.md                  # Workspace rules
 ├── opencode.jsonc             # OpenCode configuration
 ├── skills/                    # Custom skills
 │   ├── azure-llm-bridge/     # Azure Mistral/Kimi scripts
 │   ├── azure-cli/            # Azure management
 │   └── proxmox-manager/     # Proxmox VM management
 ├── bin/
-│   └── speak                 # TTS voice script
+│   ├── speak                 # TTS voice script
+│   └── memory.py             # Memory loader script
 ├── .config/
 │   └── Code/
 │       └── User/
