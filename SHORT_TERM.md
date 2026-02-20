@@ -41,6 +41,9 @@ This file stores immediate context for the current session - active tasks, curre
 - **GitHub Push**: Pushed memory upgrades to breakingcircuits1337/OpencodeBC-BrokenCircuits-edition
   - Commits: 320b34c (memory upgrade), b2bfa7a (README update)
 - **Browser Review**: Reviewed repo in Firefox via webfetch
+- **opencodeBC-MAIN Update**: Added memory system instructions to AGENTS.md in main fork
+  - Commit: 5e3d8f915 (pushed to dev branch)
+  - Added: "Run python3 /home/bc/bin/memory.py" instructions
 
 ## Pending Questions
 
