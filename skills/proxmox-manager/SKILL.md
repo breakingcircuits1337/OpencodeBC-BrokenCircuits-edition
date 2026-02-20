@@ -13,12 +13,21 @@ Manage your Dell PowerEdge R720 XD virtualization server running Proxmox VE.
 - **Proxmox IP:** 192.168.1.115:8006
 - **Web Interface:** https://192.168.1.115:8006
 
+## Credentials
+
+| User | Password | Realm | Notes |
+|------|----------|-------|-------|
+| root@pam | 987654321 | pam | Full admin access |
+| sarah@pam | Smartai1 | pam | Needs permissions setup |
+
 ## Prerequisites
 
-### 1. Set Proxmox Password
+### 1. Set Proxmox Credentials
 
 ```bash
-export PROXMOX_PASS="your-proxmox-password"
+export PROXMOX_HOST="192.168.1.115"
+export PROXMOX_USER="root@pam"
+export PROXMOX_PASS="987654321"
 ```
 
 Add to `~/.bashrc` for persistence:
