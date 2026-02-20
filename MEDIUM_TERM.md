@@ -8,11 +8,20 @@ This file stores context that persists across sessions but isn't permanent - pro
 
 ## Projects In Progress
 
-<!-- Active projects and their current status -->
+- **Knowledge System MVP**: Lightweight RAG stack with Chroma + sentence-transformers
+  - Todo: Install Chroma + sentence-transformers, create knowledge/ dir, build indexing script, add bc-query CLI
+  - Architecture: Document chunking → Embed → Vector store → Query with sources
 
 ## Recent Learnings
 
-<!-- New information learned that should persist across sessions -->
+- Memory function: Created /home/bc/bin/memory.py to load memory files in order
+- TTS always-on: Configured to speak every response via /home/bc/bin/speak
+- Voice Input: Created /home/bc/bin/listen.py using Azure Speech SDK for STT
+- Ollama Skill: Created /home/bc/skills/ollama/ for free offline local LLM inference
+- BC Plan: Created opencodeBC-MAIN/BC_PLAN.md with strategy to beat OpenCLAW and Claude Code
+- System Tray: Added to desktop app (src-tauri/src/tray.rs)
+- Magnitude: Created self-improvement skill with research, search, debate commands
+- **Brainstorming (2026-02-20)**: Designed knowledge system with RAG stack (Chroma + embeddings) for deeper knowledge, research, learning, and Q&A
 
 ## Follow-ups
 
