@@ -10,10 +10,25 @@ from pathlib import Path
 
 MEMORY_DIR = Path.home() / ".config" / "opencode" / "memory"
 PLAYBOOK_MD = MEMORY_DIR / "playbook.md"
-PLAYBOOK_JSON = MEMORY_DIR / "playbook.json"
+PLAYBOOK_JSON = MEMORY_DIR / "memory.json"
 CONFIG_JSON = MEMORY_DIR / "config.json"
 
 CATEGORIES = ["strategies", "errors", "preferences", "commands"]
+
+def load_config():
+    default = {
+        "auto_learn": True,
+        "learn_from_errors": True,
+        "learn_from_feedback": True,
+        "auto_vote": True
+    }
+    if not CONFIG_JSON.exists():
+        CONFIG_JSON.write_text(json.dumps(default, indent=2))
+        return default
+    return json.loads(CONFIG_JSON.read_text())
+
+def save_config(config):
+    CONFIG_JSON.write_text(json.dumps(config, indent=2))
 
 def ensure_dir():
     MEMORY_DIR.mkdir(parents=True, exist_ok=True)
@@ -29,6 +44,8 @@ def ensure_dir():
 ## Commands
 
 """)
+    if not CONFIG_JSON.exists():
+        load_config()
 
 def load_playbook():
     if not PLAYBOOK_JSON.exists():
@@ -214,6 +231,91 @@ def vote_entry(identifier, vote_type):
             return True
     return False
 
+def learn_from_error(error_message, context=""):
+    """Automatically learn from an error"""
+    ensure_dir()
+    config = load_config()
+    
+    if not config.get("learn_from_errors", True):
+        return None
+    
+    error_insight = analyze_error(error_message)
+    if error_insight:
+        entry_id = add_entry(error_insight, category="errors")
+        return entry_id
+    return None
+
+def analyze_error(error_message):
+    """Convert error message to actionable insight"""
+    error_lower = error_message.lower()
+    
+    patterns = [
+        (r"nonetype.*not subscriptable", "Check if object exists before indexing"),
+        (r"nonetype.*not iterable", "Check if object is None before iterating"),
+        (r"index out of range", "Check list bounds before accessing index"),
+        (r"keyerror", "Check if key exists in dictionary"),
+        (r"attributeerror.*none", "Check if object is None before accessing attributes"),
+        (r"permission denied", "Check file/directory permissions"),
+        (r"no such file or directory", "Verify file path exists"),
+        (r"module not found", "Install missing module with pip"),
+        (r"import error", "Check import path and module installation"),
+        (r"timeout", "Increase timeout or check network connection"),
+    ]
+    
+    for pattern, insight in patterns:
+        if re.search(pattern, error_lower):
+            return insight
+    
+    return f"Error: {error_message[:100]}"
+
+def learn_from_feedback(feedback):
+    """Learn from user feedback/correction"""
+    ensure_dir()
+    config = load_config()
+    
+    if not config.get("learn_from_feedback", True):
+        return None
+    
+    feedback_lower = feedback.lower()
+    
+    if any(word in feedback_lower for word in ["wrong", "incorrect", "not right", "mistake", "error"]):
+        entry_id = add_entry(f"Correction noted: {feedback}", category="errors")
+        return entry_id
+    
+    if any(word in feedback_lower for word in ["better", "good", "great", "thanks", "perfect"]):
+        return None
+    
+    entry_id = add_entry(feedback, category="preferences")
+    return entry_id
+
+def auto_review():
+    """Review playbook and identify low-quality entries"""
+    ensure_dir()
+    data = load_playbook()
+    
+    suggestions = []
+    for entry_id, entry in data["entries"].items():
+        helpful = entry.get("helpful", 0)
+        harmful = entry.get("harmful", 0)
+        
+        if harmful > helpful and harmful > 2:
+            suggestions.append(f"Consider removing: {entry['content']}")
+        elif helpful > 10:
+            suggestions.append(f"High value entry: {entry['content']}")
+    
+    return suggestions
+
+def get_config():
+    """Get current configuration"""
+    return load_config()
+
+def set_config(key, value):
+    """Update configuration"""
+    config = load_config()
+    config[key] = value
+    save_config(config)
+    return config
+
 def get_stats():
     ensure_dir()
     data = load_playbook()
@@ -285,8 +387,49 @@ def main():
         if stats["last_updated"]:
             print(f"Last updated: {stats['last_updated']}")
     
+    elif cmd == "learn" and len(sys.argv) > 2:
+        if sys.argv[2] == "error" and len(sys.argv) > 3:
+            error_msg = " ".join(sys.argv[3:])
+            entry_id = learn_from_error(error_msg)
+            if entry_id:
+                print(f"Learned from error: {entry_id}")
+            else:
+                print("Auto-learn disabled or no insight extracted")
+        elif sys.argv[2] == "feedback" and len(sys.argv) > 3:
+            feedback = " ".join(sys.argv[3:])
+            entry_id = learn_from_feedback(feedback)
+            if entry_id:
+                print(f"Learned from feedback: {entry_id}")
+            else:
+                print("Feedback noted")
+        else:
+            print("Usage: memory learn error <message> OR memory learn feedback <text>")
+    
+    elif cmd == "review":
+        suggestions = auto_review()
+        if suggestions:
+            print("Playbook Review:")
+            for s in suggestions:
+                print(f"  - {s}")
+        else:
+            print("No suggestions")
+    
+    elif cmd == "config":
+        if len(sys.argv) > 2:
+            if len(sys.argv) > 3:
+                key = sys.argv[2]
+                value = sys.argv[3].lower() == "true"
+                config = set_config(key, value)
+                print(f"Updated {key} = {value}")
+            else:
+                config = get_config()
+                print(json.dumps(config, indent=2))
+        else:
+            config = get_config()
+            print(json.dumps(config, indent=2))
+    
     else:
-        print("Commands: add, search, remove, export, import, vote, stats")
+        print("Commands: add, search, remove, export, import, vote, stats, learn, review, config")
 
 if __name__ == "__main__":
     main()

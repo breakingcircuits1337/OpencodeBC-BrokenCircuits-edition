@@ -63,29 +63,64 @@ Categories: strategies, errors, preferences, commands
 /memory import ~/playbook.md
 ```
 
+## Auto-Learn (Phase 3)
+
+### Learn from Error
+
+Automatically extract insights from error messages:
+
+```
+memory learn error "TypeError: 'NoneType' object is not subscriptable"
+# Learns: "Check if object exists before indexing"
+```
+
+### Learn from Feedback
+
+Learn from user corrections:
+
+```
+memory learn feedback "That was wrong, use black instead"
+# Learns: "Correction noted: That was wrong, use black instead"
+```
+
+### Review Playbook
+
+Get suggestions for improving the playbook:
+
+```
+memory review
+# Shows entries with low helpful/harmful ratio
+```
+
+### Configuration
+
+```
+memory config                    # Show all settings
+memory config learn_from_errors true   # Enable/disable
+memory config learn_from_feedback true
+```
+
 ## Files
 
 - Script: `scripts/memory.py`
 - Playbook: `~/.config/opencode/memory/playbook.md`
-- Data: `~/.config/opencode/memory/playbook.json`
+- Data: `~/.config/opencode/memory/memory.json`
+- Config: `~/.config/opencode/memory/config.json`
 
 ## Examples
 
 ```
-> /remember Use python3 -m venv for virtual environments
-Added: [str-00001]
+> memory learn error "KeyError: 'foo'"
+Learned from error: [err-00001]
 
-> /recall azure
-[str-00002] [strategies] Azure API key is in ~/.env
+> memory search
+[str-00001] [strategies] Use python3 -m venv for virtual environments
+[err-00001] [errors] Check if key exists in dictionary
 
-> /memory stats
-Total entries: 2
-  strategies: 2
-Last updated: 2026-02-19
+> memory review
+Playbook Review:
+  - Consider removing: <entry with high harmful votes>
 
-> /vote str-00001 helpful
-Voted
-
-> /memory export ~/backup.md
-Exported to ~/backup.md
+> memory config
+{"auto_learn": true, "learn_from_errors": true, ...}
 ```
