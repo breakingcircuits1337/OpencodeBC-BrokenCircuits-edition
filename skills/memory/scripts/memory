@@ -1,0 +1,30 @@
+#!/bin/bash
+# Memory command wrapper for OpenCode BC
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+MEMORY_PY="$SCRIPT_DIR/memory.py"
+
+case "$1" in
+    add|remember)
+        shift
+        python3 "$MEMORY_PY" add "$@"
+        ;;
+    search|recall)
+        shift
+        python3 "$MEMORY_PY" search "$@"
+        ;;
+    remove|forget|delete)
+        shift
+        python3 "$MEMORY_PY" remove "$@"
+        ;;
+    stats|status)
+        python3 "$MEMORY_PY" stats
+        ;;
+    *)
+        echo "Memory commands:"
+        echo "  memory add <info>     - Add to playbook"
+        echo "  memory search [query] - Search playbook"
+        echo "  memory remove <id>    - Remove entry"
+        echo "  memory stats          - Show stats"
+        ;;
+esac
