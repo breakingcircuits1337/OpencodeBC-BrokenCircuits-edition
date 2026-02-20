@@ -102,7 +102,7 @@ KIMI_ENDPOINT=https://your-resource.cognitiveservices.azure.com/openai/deploymen
 PROXMOX_HOST=192.168.1.115
 PROXMOX_PORT=8006
 PROXMOX_USER=root@pam
-PROXMOX_PASS=your_proxmox_password_here
+PROXMOX_PASS=987654321
 ENVFILE
 
 # Create CLAUDE.md

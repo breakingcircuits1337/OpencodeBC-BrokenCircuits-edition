@@ -8,7 +8,6 @@ import sys
 import os
 from proxmoxer import ProxmoxAPI
 
-# Configuration
 PROXMOX_HOST = os.getenv("PROXMOX_HOST", "192.168.1.115")
 PROXMOX_PORT = os.getenv("PROXMOX_PORT", "8006")
 PROXMOX_USER = os.getenv("PROXMOX_USER", "root@pam")
@@ -19,6 +18,7 @@ def list_vms():
     
     if not PROXMOX_PASS:
         print("❌ Error: PROXMOX_PASS environment variable not set")
+        print("   Set it with: export PROXMOX_PASS='your-password'")
         sys.exit(1)
     
     try:
@@ -34,13 +34,11 @@ def list_vms():
         print("=" * 60)
         print()
         
-        # Get all nodes
         for node in proxmox.nodes.get():
             node_name = node['node']
             print(f"📍 Node: {node_name}")
             print("-" * 60)
             
-            # Get VMs (qemu)
             vms = proxmox.nodes(node_name).qemu.get()
             if vms:
                 print(f"\n   Virtual Machines ({len(vms)}):")
@@ -56,24 +54,20 @@ def list_vms():
                     status_icon = "🟢" if status == "running" else "🔴"
                     print(f"   {vmid:<8} {name:<20} {status_icon} {status:<8} {cpu:<6} {mem:<10}")
             
-            # Get Containers (lxc)
             containers = proxmox.nodes(node_name).lxc.get()
             if containers:
                 print(f"\n   Containers ({len(containers)}):")
-                print(f"   {'VMID':<8} {'Name':<20} {'Status':<10} {'CPU':<6} {'Memory':<10}")
+                print(f"   {'VMID':<8} {'Name':<20} {'Status':<10}")
                 print(f"   {'-'*60}")
                 for ct in containers:
                     vmid = ct.get('vmid', 'N/A')
                     name = ct.get('name', 'unnamed')[:18]
                     status = ct.get('status', 'unknown')
-                    cpu = f"{ct.get('cpu', 0)*100:.1f}%" if 'cpu' in ct else 'N/A'
-                    mem = f"{ct.get('mem', 0)/1024/1024/1024:.1f}GB" if 'mem' in ct else 'N/A'
-                    
                     status_icon = "🟢" if status == "running" else "🔴"
-                    print(f"   {vmid:<8} {name:<20} {status_icon} {status:<8} {cpu:<6} {mem:<10}")
+                    print(f"   {vmid:<8} {name:<20} {status_icon} {status:<8}")
             
             if not vms and not containers:
-                print("   No VMs or containers found on this node")
+                print("   No VMs or containers found")
             
             print()
         

@@ -29,6 +29,7 @@ def check_status():
     
     if not PROXMOX_PASS:
         print("❌ Error: PROXMOX_PASS environment variable not set")
+        print("   Set it with: export PROXMOX_PASS='your-password'")
         sys.exit(1)
     
     try:
