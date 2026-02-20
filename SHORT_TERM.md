@@ -44,6 +44,9 @@ This file stores immediate context for the current session - active tasks, curre
 - **opencodeBC-MAIN Update**: Added memory system instructions to AGENTS.md in main fork
   - Commit: 5e3d8f915 (pushed to dev branch)
   - Added: "Run python3 /home/bc/bin/memory.py" instructions
+- **README Update (opencodeBC-MAIN)**: Added Memory System section to README
+  - Commit: 7d2824295 (pushed to dev branch)
+  - Added: Full memory hierarchy explanation with memory.py usage
 
 ## Pending Questions
 
