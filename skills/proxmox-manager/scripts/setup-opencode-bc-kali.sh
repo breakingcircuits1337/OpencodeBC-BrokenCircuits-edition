@@ -111,7 +111,7 @@ cat > ~/CLAUDE.md << 'CLAUDEMD'
 # CLAUDE.md - User Context & Memory
 
 ## User Profile
-- **Name**: User (sarah)
+- **Name**: User (${USER})
 - **Location**: Kali Linux VM - Agent-1337
 - **Host**: Proxmox Dell R720 XD at 192.168.1.115
 
@@ -314,7 +314,7 @@ cat > ~/bin/setup-github-ssh.sh << 'GITHUBSSH'
 
 if [ ! -f ~/.ssh/id_ed25519 ]; then
     echo "Generating SSH key..."
-    ssh-keygen -t ed25519 -C "sarah@agent-1337" -f ~/.ssh/id_ed25519 -N ""
+    ssh-keygen -t ed25519 -C "${USER}@$(hostname)" -f ~/.ssh/id_ed25519 -N ""
     eval "$(ssh-agent -s)"
     ssh-add ~/.ssh/id_ed25519
     echo ""

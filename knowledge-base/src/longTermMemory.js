@@ -12,7 +12,7 @@ class LongTermMemory {
         this.host = options.host || process.env.POSTGRES_HOST || 'localhost';
         this.port = options.port || process.env.POSTGRES_PORT || 5432;
         this.database = options.database || process.env.DATABASE || 'knowledge_base';
-        this.user = options.user || process.env.POSTGRES_USER || 'sarah';
+        this.user = options.user || process.env.POSTGRES_USER || 'opencode';
         this.password = options.password || process.env.POSTGRES_PASSWORD || 'sarah123';
         this.connected = false;
     }

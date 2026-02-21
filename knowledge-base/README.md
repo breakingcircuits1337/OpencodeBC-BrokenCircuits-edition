@@ -150,7 +150,7 @@ Add to your CLAUDE.md:
 
 ```markdown
 ### Knowledge Base
-- Location: `/home/sarah/knowledge-base/`
+- Location: `~/knowledge-base/`
 - Use for: Storing project info, remembering research, conversation context
 - Commands:
   - `node src/cli.js learn "key" "value" --permanent`

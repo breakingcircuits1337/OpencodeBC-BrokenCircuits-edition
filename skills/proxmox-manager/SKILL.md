@@ -18,7 +18,7 @@ Manage your Dell PowerEdge R720 XD virtualization server running Proxmox VE.
 | User | Password | Realm | Notes |
 |------|----------|-------|-------|
 | root@pam | 987654321 | pam | Full admin access |
-| sarah@pam | Smartai1 | pam | Needs permissions setup |
+| <your-user>@pam | Smartai1 | pam | Needs permissions setup |
 
 ## Prerequisites
 
@@ -41,7 +41,7 @@ echo 'export PROXMOX_PASS="your-password"' >> ~/.bashrc
 pip install proxmoxer requests
 ```
 
-Already installed in your virtual environment at `/home/sarah/.venvs/base`
+Already installed in your virtual environment at `~/.venvs/base`
 
 ## Quick Start
 
@@ -222,7 +222,7 @@ Add to `.vscode/tasks.json`:
 {
   "label": "Check Proxmox Status",
   "type": "shell",
-  "command": "python3 /home/sarah/skills/proxmox-manager/scripts/node-status.py",
+  "command": "python3 ~/skills/proxmox-manager/scripts/node-status.py",
   "problemMatcher": []
 }
 ```
@@ -231,8 +231,8 @@ Add to `.vscode/tasks.json`:
 
 Add to `~/.bashrc`:
 ```bash
-alias prox-status="python3 /home/sarah/skills/proxmox-manager/scripts/node-status.py"
-alias prox-vms="python3 /home/sarah/skills/proxmox-manager/scripts/list-vms.py"
+alias prox-status="python3 ~/skills/proxmox-manager/scripts/node-status.py"
+alias prox-vms="python3 ~/skills/proxmox-manager/scripts/list-vms.py"
 ```
 
 ## Useful Links

@@ -51,7 +51,7 @@
 
 ## Session Startup
 
-Run: `python3 /home/bc/bin/memory.py` to load memory hierarchy
+Run: `python3 ~/bin/memory.py` to load memory hierarchy
 
 ---
 

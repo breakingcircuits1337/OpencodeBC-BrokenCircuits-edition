@@ -2,13 +2,13 @@
 """
 Memory Loader Function
 Reads all memory files in order: LONG → MEDIUM → SHORT
-Usage: python /home/bc/bin/memory.py
+Usage: python bin/memory.py
 """
 
 import os
 from pathlib import Path
 
-MEMORY_DIR = Path("/home/bc")
+MEMORY_DIR = Path.home()
 FILES = {
     "LONG-TERM": MEMORY_DIR / "CLAUDE.md",
     "SOUL": MEMORY_DIR / "SOUL.md",
