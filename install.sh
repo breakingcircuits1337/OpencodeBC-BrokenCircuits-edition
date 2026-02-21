@@ -239,7 +239,8 @@ echo "   cd $INSTALL_DIR && git pull"
 echo "   cd $HOME/opencodeBC-MAIN && git pull && bun run build"
 echo ""
 
+echo "📡 Incoming Encrypted Transmission..."
 # Launch Wake Sequence
-if [ -f bin/wake_up.py ]; then
-    python3 bin/wake_up.py
+if [ -f bin/meet_the_gremlin.py ]; then
+    python3 bin/meet_the_gremlin.py
 fi
