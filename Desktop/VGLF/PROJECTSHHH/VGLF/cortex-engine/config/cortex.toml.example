@@ -1,0 +1,33 @@
+# VGLF Cortex Engine — Example Configuration
+# Copy to config/cortex.toml and adjust for your deployment.
+# DO NOT commit config/cortex.toml to git — it may contain site-specific paths.
+# NEVER set llm_url to a cloud endpoint without also setting VGLF_ALLOW_CLOUD_LLM=true.
+
+# Local LLM endpoint (Ollama by default).
+# SECURITY: Must resolve to loopback (127.x.x.x, ::1) or RFC-1918 private range.
+# Override with LOCAL_LLM_URL environment variable for container deployments.
+llm_url = "http://localhost:11434/v1"
+
+# Model to use for block/allow decisions.
+# Must support OpenAI-compatible /v1/chat/completions endpoint.
+llm_model = "llama3.2"
+
+# Path to the Rust Spinal Cord IPC socket.
+# Must be writable only by the vglf system user.
+ipc_socket = "/var/run/vglf/rules.sock"
+
+# Glob pattern for Vortex Parquet log files.
+# Must point to the directory where vortex-sink writes log files.
+vortex_glob = "/var/lib/vglf/logs/*.parquet"
+
+# Minimum event count before an IP is considered suspicious and sent to the LLM.
+# Tune based on your traffic baseline. Lower values = more LLM calls = more latency.
+suspicious_threshold = 100
+
+# Dry-run mode: analyze and log decisions but never push rules to the Rust IPC handler.
+# Set to true for initial deployment validation.
+# Override with VGLF_DRY_RUN=true environment variable.
+dry_run = false
+
+# Log level: trace, debug, info, warn, error
+log_level = "info"

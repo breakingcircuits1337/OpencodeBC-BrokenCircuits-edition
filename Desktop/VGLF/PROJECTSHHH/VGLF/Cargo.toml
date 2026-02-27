@@ -1,0 +1,21 @@
+[workspace]
+members = ["spinal-cord", "vortex-sink", "pqc-keymgmt"]
+resolver = "2"
+
+[workspace.dependencies]
+tokio = { version = "1", features = ["full"] }
+rayon = "1"
+crossbeam = "0.8"
+anyhow = "1"
+thiserror = "2"
+aws-lc-rs = { version = "1", features = ["bindgen", "unstable"] }
+sha3 = "0.10"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+ipnetwork = "0.20"
+hex = "0.4"
+zeroize = { version = "1", features = ["derive"] }
+base64 = "0.22"
+toml = "0.8"

@@ -1,0 +1,21 @@
+# VGLF Cortex Engine — Pinned Dependencies
+#
+# SECURITY NOTE: For production deployment, regenerate this file with content hashes:
+#   pip install pip-tools
+#   pip-compile --generate-hashes requirements.in
+#
+# The versions below are minimum-viable pins. Replace with hash-pinned versions
+# before any production or staging deployment. CLAUDE.md requires:
+#   "pinned in requirements.txt with hashes — pip install --require-hashes"
+#
+# Runtime dependencies
+openai>=1.30.0
+duckdb>=1.0.0
+
+# Python 3.10 and below need tomli; Python 3.11+ has tomllib in stdlib
+tomli>=2.0.0; python_version < "3.11"
+
+# Development / test dependencies (not needed in production image)
+pytest>=8.0.0
+pytest-cov>=4.0.0
+mypy>=1.9.0

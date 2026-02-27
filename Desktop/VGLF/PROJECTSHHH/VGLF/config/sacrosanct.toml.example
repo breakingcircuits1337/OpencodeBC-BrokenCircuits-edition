@@ -1,0 +1,43 @@
+# VGLF Sacrosanct IP Configuration
+# Copy to sacrosanct.toml and populate with site-specific addresses BEFORE deployment.
+# CRITICAL: The Rust IPC handler enforces this list. Python Cortex cannot override it.
+# CRITICAL: Populate ALL SCADA/PLC/HMI addresses before first production run.
+# CRITICAL: Never commit sacrosanct.toml with real production addresses to git.
+
+# ── Mandatory baseline (always enforced in Rust regardless of this file) ────
+# 127.0.0.0/8  — IPv4 loopback (RFC 5735)
+# ::1/128      — IPv6 loopback (RFC 4291)
+# These two are hardcoded in the Rust IPC handler and cannot be removed.
+
+# ── Site-specific entries (REPLACE ALL PLACEHOLDERS BEFORE PRODUCTION) ─────
+
+[[networks]]
+cidr = "127.0.0.0/8"
+description = "IPv4 loopback — redundant with Rust baseline, kept for auditability"
+
+[[networks]]
+cidr = "::1/128"
+description = "IPv6 loopback — redundant with Rust baseline, kept for auditability"
+
+# SCADA/ICS — REPLACE WITH REAL ADDRESSES
+[[networks]]
+cidr = "10.0.1.1/32"
+description = "SCADA gateway — PLACEHOLDER: replace with real address before production"
+
+[[networks]]
+cidr = "10.0.1.2/32"
+description = "Primary PLC — PLACEHOLDER: replace with real address before production"
+
+[[networks]]
+cidr = "10.0.1.3/32"
+description = "HMI workstation — PLACEHOLDER: replace with real address before production"
+
+# Management network — REPLACE WITH REAL RANGE
+[[networks]]
+cidr = "10.0.2.0/24"
+description = "Management VLAN — PLACEHOLDER: replace with real range before production"
+
+# Historian / data collection — REPLACE
+[[networks]]
+cidr = "10.0.3.0/24"
+description = "Historian servers — PLACEHOLDER: replace with real range before production"

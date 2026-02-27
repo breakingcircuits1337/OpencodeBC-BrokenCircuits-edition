@@ -1,0 +1,129 @@
+{
+  "model": "claude-opus-4-6",
+  "maxTokens": 8096,
+
+  "permissions": {
+    "allowedTools": [
+      "Read",
+      "Write",
+      "Edit",
+      "Bash(cargo *)",
+      "Bash(python *)",
+      "Bash(pytest *)",
+      "Bash(mypy *)",
+      "Bash(cargo clippy *)",
+      "Bash(rustfmt *)",
+      "Bash(git status)",
+      "Bash(git diff *)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git log *)",
+      "Bash(git branch *)",
+      "Bash(git checkout *)",
+      "Bash(git stash *)",
+      "Bash(nft -f *)",
+      "Bash(nft list *)",
+      "Bash(openssl *)",
+      "Bash(bpftool prog show)",
+      "Bash(ip link show *)",
+      "Bash(ss -tlnp)",
+      "Bash(cat /proc/net/*)",
+      "Bash(sha256sum *)",
+      "Bash(xxd *)",
+      "Bash(grep -r *)",
+      "Bash(grep -rn *)",
+      "Bash(find . *)",
+      "Bash(jq *)",
+      "Bash(toml *)",
+      "Task"
+    ],
+    "deny": [
+      "Bash(rm -rf *)",
+      "Bash(sudo rm *)",
+      "Bash(curl * | bash)",
+      "Bash(wget * | bash)",
+      "Bash(eval *)",
+      "Bash(exec *)",
+      "Bash(* > /dev/sda*)",
+      "Bash(dd if=* of=/dev/*)",
+      "Write(.env)",
+      "Write(.env.*)",
+      "Write(*.pem)",
+      "Write(*.key)",
+      "Write(*.p8)",
+      "Write(*_private_key*)",
+      "Write(*secret*)",
+      "Write(config/production.*)"
+    ]
+  },
+
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write(*.rs)",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cd $(git rev-parse --show-toplevel) 2>/dev/null && rustfmt --edition 2021 \"$TOOL_INPUT_PATH\" 2>/dev/null; cargo clippy --quiet 2>&1 | grep -E '^error' | head -20"
+          }
+        ]
+      },
+      {
+        "matcher": "Write(*.py)",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cd $(git rev-parse --show-toplevel) 2>/dev/null && python -m black \"$TOOL_INPUT_PATH\" --quiet 2>/dev/null; python -m mypy \"$TOOL_INPUT_PATH\" --ignore-missing-imports 2>&1 | grep -E '^.*error:' | head -20"
+          }
+        ]
+      },
+      {
+        "matcher": "Write(cortex-engine/**/*.py)",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python -c \"import ast, sys; ast.parse(open('$TOOL_INPUT_PATH').read()); print('Syntax OK: ' + '$TOOL_INPUT_PATH')\" 2>&1; if grep -En 'subprocess\\.run|subprocess\\.call|subprocess\\.Popen|os\\.system|os\\.popen|os\\.execv[pe]?|os\\.spawn' \"$TOOL_INPUT_PATH\"; then echo 'BLOCKED: Dangerous subprocess/exec call detected in Cortex file' >&2; exit 1; fi; if grep -En 'shell[[:space:]]*=[[:space:]]*True' \"$TOOL_INPUT_PATH\"; then echo 'BLOCKED: shell=True detected in Cortex file' >&2; exit 1; fi"
+          }
+        ]
+      },
+      {
+        "matcher": "Write(spinal-cord/**/*.rs)",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if grep -n 'blocking_send' \"$TOOL_INPUT_PATH\"; then echo 'WARNING: blocking_send detected — verify this is NOT inside rayon::spawn (RT-H03)' >&2; fi; if grep -Pn '\\.unwrap\\(\\)' \"$TOOL_INPUT_PATH\" | grep -v '#\\[cfg(test)\\]' | grep -v '// SAFETY:'; then echo 'WARNING: .unwrap() outside test context — use .expect(\"reason\") or ? operator' >&2; fi; if grep -n 'liboqs' \"$TOOL_INPUT_PATH\"; then echo 'BLOCKED: liboqs must never be used in production code' >&2; exit 1; fi"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if echo \"$TOOL_INPUT\" | grep -qE '\\| bash|\\| sh|eval |exec |> /dev/|rm -rf|dd if='; then echo 'BLOCKED: Dangerous shell pattern detected' >&2; exit 1; fi"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cd $(git rev-parse --show-toplevel) 2>/dev/null && echo '--- VGLF Session End ---' && cargo test --workspace --quiet 2>&1 | tail -5 || true"
+          }
+        ]
+      }
+    ]
+  },
+
+  "env": {
+    "RUST_LOG": "warn",
+    "RUST_BACKTRACE": "1",
+    "VGLF_ENV": "development",
+    "VGLF_ALLOW_CLOUD_LLM": "false",
+    "VGLF_DRY_RUN": "true"
+  }
+}

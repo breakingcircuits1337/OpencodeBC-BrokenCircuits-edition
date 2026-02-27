@@ -1,0 +1,49 @@
+# Rust build artifacts
+target/
+**/*.rs.bk
+Cargo.lock.bak
+
+# Python artifacts
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+.eggs/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+.coverage
+htmlcov/
+venv/
+.venv/
+
+# Secrets and key material — NEVER commit
+.env
+.env.*
+*.pem
+*.key
+*.p8
+*_private_key*
+*secret*
+
+# ONNX model weights (stored via LFS or separately; only hash sidecars in git)
+*.onnx
+
+# Local Claude settings (overrides not for sharing)
+.claude/settings.local.json
+
+# IDE / OS noise
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Production config (no secrets in git)
+config/production.toml
+config/*.local.toml
